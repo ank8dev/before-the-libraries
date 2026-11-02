@@ -1,16 +1,16 @@
 :root {
   --bg: #faf6ee; --panel: #f3ede0; --text: #24211c; --muted: #6b645a;
-  --line: #ddd4c2; --bad: #a33b2a; --bad-soft: #f6e4df; --accent: #1f4e79; --accent-soft: #e4ecf4; --code-bg: #f1ebdd;
+  --line: #ddd4c2; --bad: #a33b2a; --bad-soft: #f6e4df; --accent: #8250df; --accent-soft: #efe7fb; --code-bg: #f1ebdd;
   --serif: Georgia, "Iowan Old Style", "Palatino Linotype", "Times New Roman", serif;
   --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
   --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 @media (prefers-color-scheme: dark) {
   :root { --bg: #1b1a17; --panel: #24221e; --text: #e8e2d4; --muted: #a39b8b;
-    --line: #3a372f; --bad: #e69683; --bad-soft: #3a2723; --accent: #8db8e6; --accent-soft: #26323f; --code-bg: #25231f; }
+    --line: #3a372f; --bad: #e69683; --bad-soft: #3a2723; --accent: #a371f7; --accent-soft: #2d2250; --code-bg: #25231f; }
 }
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+html { touch-action: manipulation; scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 body { margin: 0; background: var(--bg); color: var(--text); font: 17px/1.65 var(--sans); overflow-wrap: anywhere; }
 h1, h2, h3 { font-family: var(--serif); font-weight: 600; line-height: 1.25; }
 h1 { font-size: 2rem; margin: 0 0 .5rem; }
@@ -145,3 +145,11 @@ button:disabled { opacity: .6; cursor: progress; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
 main:focus-visible { outline: none; }
+.lang { font: inherit; font-size: .85rem; background: var(--bg); color: var(--text); border: 1px solid var(--line); border-radius: 4px; padding: .3rem .4rem; max-width: 9rem; }
+.brand { display: inline-flex; align-items: center; gap: .6rem; }
+.brand img { display: block; border-radius: 5px; }
+.langs { display: flex; gap: .25rem; margin-left: auto; }
+.langbtn { padding: .25rem .5rem; font-size: .8rem; min-width: 2.2rem; }
+.langbtn[aria-pressed="true"] { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+.progress { margin-left: .5rem; white-space: nowrap; }
+@media (max-width: 800px) { .top-inner { flex-wrap: wrap; } .langs { order: 3; width: 100%; margin-left: 0; } .progress { margin-left: auto; } }

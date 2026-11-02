@@ -1,4 +1,4 @@
-# Before the Libraries
+# BtLib.python by ank
 
 15 small Python exercises. They prepare you for NumPy, pandas, scikit-learn and PyTorch.
 You write simple versions of library ideas by hand. Then the real library feels clear.
