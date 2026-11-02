@@ -141,3 +141,21 @@ window.I18N.es = {
     }
   }
 };
+window.I18N.es.ui.extra = "Reto extra (opcional)";
+(function(c){ Object.keys(c).forEach(function(id){ window.I18N.es.ex[id].challenge = c[id]; }); })({
+ "01_add_vectors": "Escribe también sub_vectors(a, b). ¿Qué obtienes si sumas un vector a sí mismo y luego lo restas?",
+ "02_dot": "Usa dot para hallar la longitud de un vector: toma el dot del vector consigo mismo. Predice la respuesta para [3, 4] antes de ejecutar.",
+ "03_matrix_shape": "Transpón una matriz 1x3 y una 3x1. ¿Qué formas obtienes? ¿Transponer dos veces devuelve siempre el original?",
+ "04_flatten_reshape": "Voltea una imagen de izquierda a derecha usando solo las ideas de flatten y reshape. ¿En qué orden van los pasos?",
+ "05_scale_0_1": "Escala al rango de -1 a 1 en lugar de 0 a 1. ¿Qué pequeño cambio necesitas?",
+ "06_tokenize": "Haz que tokenize conserve el apóstrofo en \"it's\". ¿Cómo cambia tu regla?",
+ "07_top_words": "Devuelve también la parte de cada palabra en el texto total (cuenta dividida entre el total). ¿Qué palabras forman el 50% de tu propia frase?",
+ "08_vocab": "Cuenta cuántas palabras desconocidas encontró encode. ¿Cómo puede una función devolver los ids y la cuenta?",
+ "09_bigrams": "Devuelve los 2 seguidores principales. ¿Qué haces cuando una palabra solo tiene un seguidor?",
+ "10_generate": "Crea 5 textos con 5 semillas distintas a partir de tu propia frase. ¿Qué palabras se repiten más? ¿Por qué?",
+ "11_metrics": "Añade precision (TP dividido entre TP + FP). ¿Cuándo no está definida y qué devuelves entonces?",
+ "12_train_test_split": "Mantén la misma proporción de etiquetas 0 y 1 en train y test. ¿Por qué una mezcla simple puede fallar con datos muy pequeños?",
+ "13_batches": "Añade una opción drop_last que omita un último lote más pequeño. ¿Cuándo es útil en el entrenamiento?",
+ "14_dataset": "Añade un método que devuelva los primeros n ejemplos como un nuevo Dataset. ¿Funciona con n negativo?",
+ "15_nearest_neighbor": "Haz que el modelo vote entre los k puntos más cercanos (k = 3). ¿Qué pasa cuando los votos empatan?"
+});

@@ -25,7 +25,7 @@
     marked: "Exercise marked done.", libPrefix: "Library connection:", next: "Next: {title}", aria_editor: "Python code editor", aria_snip: "Example code to run",
     v_object: "object", v_none: "nothing (None)", v_text: "text", v_bool: "True or False", v_number: "number", v_emptyList: "empty list", v_listNums: "list of {n} numbers",
     v_pairs: "{n} pairs (word, count)", v_grid: "grid: {r} rows x {c} columns", v_ragged: "{n} lists of different length", v_listItems: "list of {n} items",
-    v_emptyDict: "empty dict", v_dictKeys: "dict with {n} keys", v_matrix: "table: row = first word, column = next word, number = count", v_corner: "first \\ next", v_value: "value", v_key: "key"
+    extra: "Extra challenge (optional)", v_emptyDict: "empty dict", v_dictKeys: "dict with {n} keys", v_matrix: "table: row = first word, column = next word, number = count", v_corner: "first \\ next", v_value: "value", v_key: "key"
   };
   var lang = "";
   try { lang = localStorage.getItem("btl-lang") || ""; } catch (e) { lang = ""; }
@@ -431,6 +431,7 @@
     function showLib() {
       clear(libBody);
       libBody.appendChild(done[x.id] ? T("p", X(x, "library")) : T("p", S("libLocked"), "locked"));
+      if (done[x.id]) { libBody.appendChild(T("h3", S("extra"))); libBody.appendChild(T("p", X(x, "challenge"))); }
     }
     showLib();
     function setDone(v) {

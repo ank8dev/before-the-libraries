@@ -141,3 +141,21 @@ window.I18N.zh = {
     }
   }
 };
+window.I18N.zh.ui.extra = "额外挑战（可选）";
+(function(c){ Object.keys(c).forEach(function(id){ window.I18N.zh.ex[id].challenge = c[id]; }); })({
+ "01_add_vectors": "再写一个 sub_vectors(a, b)。把一个向量加上它自己，再减去它，会得到什么？",
+ "02_dot": "用 dot 求向量的长度：取向量与自身的 dot。运行前先预测 [3, 4] 的答案。",
+ "03_matrix_shape": "转置一个 1x3 矩阵和一个 3x1 矩阵。得到什么形状？转置两次总是得到原矩阵吗？",
+ "04_flatten_reshape": "只用 flatten 和 reshape 的思路，把图片左右翻转。步骤的顺序是什么？",
+ "05_scale_0_1": "缩放到 -1 到 1 的范围，而不是 0 到 1。需要做什么小改动？",
+ "06_tokenize": "让 tokenize 保留 \"it's\" 中的撇号。你的规则怎么变？",
+ "07_top_words": "同时返回每个单词在全文中所占的比例（次数除以总数）。哪些单词占了你自己句子的 50%？",
+ "08_vocab": "统计 encode 遇到了多少个未知单词。一个函数怎样同时返回 id 和这个计数？",
+ "09_bigrams": "返回最常见的 2 个后续词。如果一个词只有一个后续词怎么办？",
+ "10_generate": "用你自己的句子和 5 个不同的种子生成 5 段文本。哪些词重复最多？为什么？",
+ "11_metrics": "添加 precision（TP 除以 TP + FP）。它什么时候无定义？那时你返回什么？",
+ "12_train_test_split": "让训练集和测试集中 0 和 1 标签的比例保持一致。为什么简单的打乱在非常小的数据上可能失败？",
+ "13_batches": "添加一个 drop_last 选项，跳过较小的最后一个批次。这在训练中什么时候有用？",
+ "14_dataset": "添加一个方法，把前 n 个样本作为新的 Dataset 返回。它对负数 n 有效吗？",
+ "15_nearest_neighbor": "让模型在 k 个最近点中投票（k = 3）。票数相同时会发生什么？"
+});

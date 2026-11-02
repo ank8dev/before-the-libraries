@@ -53,6 +53,7 @@ window.EXERCISES = [
  {
   "n": 1,
   "id": "01_add_vectors",
+  "challenge": "Write sub_vectors(a, b) too. What do you get if you add a vector to itself and then subtract it?",
   "block": "numbers",
   "title": "add_vectors",
   "file": "exercises/01_add_vectors.py",
@@ -80,6 +81,7 @@ window.EXERCISES = [
  {
   "n": 2,
   "id": "02_dot",
+  "challenge": "Use dot to find the length of a vector: take the dot of a vector with itself. Predict the answer for [3, 4] before you run it.",
   "block": "numbers",
   "title": "dot",
   "file": "exercises/02_dot.py",
@@ -109,6 +111,7 @@ window.EXERCISES = [
  {
   "n": 3,
   "id": "03_matrix_shape",
+  "challenge": "Transpose a 1x3 matrix and a 3x1 matrix. Which shapes do you get? Is transposing twice always the original?",
   "block": "numbers",
   "title": "shape and transpose",
   "file": "exercises/03_matrix_shape.py",
@@ -137,6 +140,7 @@ window.EXERCISES = [
  {
   "n": 4,
   "id": "04_flatten_reshape",
+  "challenge": "Flip an image left to right using only the ideas of flatten and reshape. What is the order of steps?",
   "block": "numbers",
   "title": "flatten and reshape",
   "file": "exercises/04_flatten_reshape.py",
@@ -166,6 +170,7 @@ window.EXERCISES = [
  {
   "n": 5,
   "id": "05_scale_0_1",
+  "challenge": "Scale to the range -1 to 1 instead of 0 to 1. What small change do you need?",
   "block": "numbers",
   "title": "scale_0_1",
   "file": "exercises/05_scale_0_1.py",
@@ -195,6 +200,7 @@ window.EXERCISES = [
  {
   "n": 6,
   "id": "06_tokenize",
+  "challenge": "Make tokenize keep the apostrophe in \"it's\". How does your rule change?",
   "block": "text",
   "title": "tokenize",
   "file": "exercises/06_tokenize.py",
@@ -224,6 +230,7 @@ window.EXERCISES = [
  {
   "n": 7,
   "id": "07_top_words",
+  "challenge": "Also return each word's share of the whole text (count divided by total). Which words make 50% of your own sentence?",
   "block": "text",
   "title": "top_words",
   "file": "exercises/07_top_words.py",
@@ -253,6 +260,7 @@ window.EXERCISES = [
  {
   "n": 8,
   "id": "08_vocab",
+  "challenge": "Count how many unknown words encode met. How can one function return both the ids and the count?",
   "block": "text",
   "title": "build_vocab, encode, decode",
   "file": "exercises/08_vocab.py",
@@ -282,6 +290,7 @@ window.EXERCISES = [
  {
   "n": 9,
   "id": "09_bigrams",
+  "challenge": "Return the top 2 followers. What do you do when a word has only one follower?",
   "block": "text",
   "title": "bigram counts and predict_next",
   "file": "exercises/09_bigrams.py",
@@ -310,6 +319,7 @@ window.EXERCISES = [
  {
   "n": 10,
   "id": "10_generate",
+  "challenge": "Make 5 texts with 5 different seeds from your own sentence. Which words repeat most? Why?",
   "block": "text",
   "title": "generate",
   "file": "exercises/10_generate.py",
@@ -339,6 +349,7 @@ window.EXERCISES = [
  {
   "n": 11,
   "id": "11_metrics",
+  "challenge": "Add precision (TP divided by TP + FP). When is it undefined, and what do you return then?",
   "block": "evaluating",
   "title": "accuracy and confusion_counts",
   "file": "exercises/11_metrics.py",
@@ -368,6 +379,7 @@ window.EXERCISES = [
  {
   "n": 12,
   "id": "12_train_test_split",
+  "challenge": "Keep the same share of 0 and 1 labels in train and test. Why can a plain shuffle fail on very small data?",
   "block": "evaluating",
   "title": "train_test_split",
   "file": "exercises/12_train_test_split.py",
@@ -397,6 +409,7 @@ window.EXERCISES = [
  {
   "n": 13,
   "id": "13_batches",
+  "challenge": "Add an option drop_last that skips a smaller last batch. When is that useful in training?",
   "block": "evaluating",
   "title": "batches",
   "file": "exercises/13_batches.py",
@@ -425,6 +438,7 @@ window.EXERCISES = [
  {
   "n": 14,
   "id": "14_dataset",
+  "challenge": "Add a method that returns the first n examples as a new Dataset. Does it work with a negative n?",
   "block": "classes",
   "title": "Dataset class",
   "file": "exercises/14_dataset.py",
@@ -455,6 +469,7 @@ window.EXERCISES = [
  {
   "n": 15,
   "id": "15_nearest_neighbor",
+  "challenge": "Let the model vote among the k nearest points (k = 3). What happens when the votes tie?",
   "block": "classes",
   "title": "NearestNeighbor",
   "file": "exercises/15_nearest_neighbor.py",
