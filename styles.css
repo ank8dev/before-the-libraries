@@ -173,5 +173,5 @@ body.hdr-off .nav { top: 1rem; max-height: calc(100vh - 2rem); }
   .langbtn { min-width: 1.7rem; padding: .15rem .3rem; }
 }
 /* illustration above the footer */
-.foot-art { background: #010103; margin-top: 2rem; }
-.foot-art img { display: block; margin: 0 auto; width: 100%; max-width: 40rem; height: auto; }
+.foot-art { margin-top: 2.5rem; padding: 0 16px; }
+.foot-art img { display: block; margin: 0 auto; width: 100%; max-width: 34rem; height: auto; }
