@@ -1,13 +1,13 @@
 :root {
   --bg: #faf6ee; --panel: #f3ede0; --text: #24211c; --muted: #6b645a;
-  --line: #ddd4c2; --bad: #a33b2a; --bad-soft: #f6e4df; --accent: #1f4e79; --accent-soft: #e4ecf4; --code-bg: #f1ebdd;
+  --line: #ddd4c2; --bad: #a33b2a; --bad-soft: #f6e4df; --accent: #8250df; --accent-soft: #efe7fb; --code-bg: #f1ebdd;
   --serif: Georgia, "Iowan Old Style", "Palatino Linotype", "Times New Roman", serif;
   --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
   --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 @media (prefers-color-scheme: dark) {
   :root { --bg: #1b1a17; --panel: #24221e; --text: #e8e2d4; --muted: #a39b8b;
-    --line: #3a372f; --bad: #e69683; --bad-soft: #3a2723; --accent: #8db8e6; --accent-soft: #26323f; --code-bg: #25231f; }
+    --line: #3a372f; --bad: #e69683; --bad-soft: #3a2723; --accent: #a371f7; --accent-soft: #2d2250; --code-bg: #25231f; }
 }
 * { box-sizing: border-box; }
 html { touch-action: manipulation; scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
