@@ -155,7 +155,10 @@
     });
   }
   function renderProgress() {
-    document.getElementById("progress").textContent = S("doneCount", { n: count(), total: EX.length });
+    var pg = document.getElementById("progress");
+    pg.textContent = count() + "/" + EX.length;
+    pg.setAttribute("title", S("doneCount", { n: count(), total: EX.length }));
+    pg.setAttribute("aria-label", S("doneCount", { n: count(), total: EX.length }));
   }
 
   function home() {
