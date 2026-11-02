@@ -8,7 +8,8 @@ window.SITE = {
     {
       "code": "en",
       "name": "English"
-    }
+    },
+    { "code": "ru", "name": "Русский" }
   ]
 };
 window.BLOCKS = [
