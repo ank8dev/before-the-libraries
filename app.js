@@ -69,7 +69,7 @@
   function clear(n) { n.textContent = ""; }
 
   document.title = SITE.title;
-  document.getElementById("brand").textContent = SITE.title;
+  document.getElementById("brand").setAttribute("aria-label", SITE.title);
   var nav = document.getElementById("nav"), main = document.getElementById("main");
   var menuBtn = document.getElementById("menu-btn");
   menuBtn.addEventListener("click", function () {
