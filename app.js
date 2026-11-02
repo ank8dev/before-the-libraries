@@ -77,18 +77,23 @@
     menuBtn.setAttribute("aria-expanded", String(open));
   });
 
-  var langSel = document.getElementById("lang");
-  SITE.langs.forEach(function (l) { langSel.appendChild(el("option", { value: l.code, text: l.name })); });
-  langSel.value = lang;
-  langSel.addEventListener("change", function () {
-    lang = langSel.value;
-    try { localStorage.setItem("btl-lang", lang); } catch (e) { /* ok */ }
-    loadLang(lang, route);
+  var langBox = document.getElementById("lang");
+  var langBtns = {};
+  var SHORT = { en: "EN", ru: "RU", es: "ES", zh: "中文", hi: "हिं" };
+  SITE.langs.forEach(function (l) {
+    var b = el("button", { type: "button", "class": "langbtn", title: l.name, "aria-label": l.name, text: SHORT[l.code] || l.code.toUpperCase() });
+    b.addEventListener("click", function () {
+      lang = l.code;
+      try { localStorage.setItem("btl-lang", lang); } catch (e) { /* ok */ }
+      loadLang(lang, route);
+    });
+    langBtns[l.code] = b; langBox.appendChild(b);
   });
   function chrome() {
     document.documentElement.lang = lang;
     menuBtn.textContent = S("contents");
-    langSel.setAttribute("aria-label", S("langLabel"));
+    langBox.setAttribute("aria-label", S("langLabel"));
+    Object.keys(langBtns).forEach(function (c) { langBtns[c].setAttribute("aria-pressed", String(c === lang)); });
     document.querySelector(".skip").textContent = S("skip");
     document.getElementById("design-link").textContent = S("design");
     document.getElementById("repo-link").textContent = S("repo");

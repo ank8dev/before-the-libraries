@@ -146,3 +146,10 @@ button:disabled { opacity: .6; cursor: progress; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
 main:focus-visible { outline: none; }
 .lang { font: inherit; font-size: .85rem; background: var(--bg); color: var(--text); border: 1px solid var(--line); border-radius: 4px; padding: .3rem .4rem; max-width: 9rem; }
+.brand { display: inline-flex; align-items: center; gap: .6rem; }
+.brand img { display: block; border-radius: 5px; }
+.langs { display: flex; gap: .25rem; margin-left: auto; }
+.langbtn { padding: .25rem .5rem; font-size: .8rem; min-width: 2.2rem; }
+.langbtn[aria-pressed="true"] { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+.progress { margin-left: .5rem; white-space: nowrap; }
+@media (max-width: 800px) { .top-inner { flex-wrap: wrap; } .langs { order: 3; width: 100%; margin-left: 0; } .progress { margin-left: auto; } }
