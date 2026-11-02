@@ -65,7 +65,9 @@ window.EXERCISES = [
     "длина"
    ]
   ],
-  "starter": "\"\"\"Exercise 01: add_vectors\n\nA vector is a list of numbers. Write add_vectors(a, b).\nIt returns a NEW list. Each item is a[i] + b[i].\nIf the lists have different lengths, return None.\nDo not change a or b.\n\nExample: add_vectors([1, 2, 3], [10, 20, 30]) -> [11, 22, 33]\n\nRun: python3 exercises/01_add_vectors.py\n\"\"\"\n\n\ndef add_vectors(a, b):\n    pass\n"
+  "starter": "\"\"\"Exercise 01: add_vectors\n\nA vector is a list of numbers. Write add_vectors(a, b).\nIt returns a NEW list. Each item is a[i] + b[i].\nIf the lists have different lengths, return None.\nDo not change a or b.\n\nExample: add_vectors([1, 2, 3], [10, 20, 30]) -> [11, 22, 33]\n\nRun: python3 exercises/01_add_vectors.py\n\"\"\"\n\n\ndef add_vectors(a, b):\n    pass\n",
+  "checks": "assert add_vectors([1, 2, 3], [10, 20, 30]) == [11, 22, 33]\nassert add_vectors([], []) == []\nassert add_vectors([-1, 5], [1, -5]) == [0, 0]\nassert add_vectors([0.5, 0.25], [0.5, 0.75]) == [1.0, 1.0]\nassert add_vectors([1, 2], [1, 2, 3]) is None\nx, y = [1, 2], [3, 4]\nresult = add_vectors(x, y)\nassert x == [1, 2] and y == [3, 4], \"Do not change the input lists\"\nassert result is not x and result is not y\nprint(\"All checks passed\")\n",
+  "tryCode": "add_vectors([1, 2, 3], [10, 20, 30])"
  },
  {
   "n": 2,
@@ -106,7 +108,9 @@ window.EXERCISES = [
     "умножать"
    ]
   ],
-  "starter": "\"\"\"Exercise 02: dot\n\nWrite dot(a, b). Multiply each pair a[i] * b[i]. Then add all the results.\nThink of a as weights (how much each input matters)\nand b as inputs. The answer is one number: a weighted sum.\nIf the lengths are different, return None. For empty lists, return 0.\n\nExample: weights [0.5, 1], inputs [2, 3] -> 0.5*2 + 1*3 = 4.0\n         dot([0.5, 1], [2, 3]) -> 4.0\n\nRun: python3 exercises/02_dot.py\n\"\"\"\n\n\ndef dot(a, b):\n    pass\n"
+  "starter": "\"\"\"Exercise 02: dot\n\nWrite dot(a, b). Multiply each pair a[i] * b[i]. Then add all the results.\nThink of a as weights (how much each input matters)\nand b as inputs. The answer is one number: a weighted sum.\nIf the lengths are different, return None. For empty lists, return 0.\n\nExample: weights [0.5, 1], inputs [2, 3] -> 0.5*2 + 1*3 = 4.0\n         dot([0.5, 1], [2, 3]) -> 4.0\n\nRun: python3 exercises/02_dot.py\n\"\"\"\n\n\ndef dot(a, b):\n    pass\n",
+  "checks": "assert dot([1, 2, 3], [4, 5, 6]) == 32\nassert dot([0.5, 1], [2, 3]) == 4.0\nassert dot([], []) == 0\nassert dot([0, 0, 0], [7, 8, 9]) == 0\nassert dot([1, -1], [5, 5]) == 0\nassert dot([1, 2], [1, 2, 3]) is None\n# A weight of 0 switches an input off:\nassert dot([1, 0, 1], [10, 99, 20]) == 30\nprint(\"All checks passed\")\n",
+  "tryCode": "dot([0.5, 1, 2], [2, 3, 4])"
  },
  {
   "n": 3,
@@ -146,7 +150,9 @@ window.EXERCISES = [
     "столбец"
    ]
   ],
-  "starter": "\"\"\"Exercise 03: shape and transpose\n\nA matrix here is a list of rows (a list of lists). All rows have the same length.\nshape(matrix) returns a tuple (rows, cols). For [] return (0, 0).\ntranspose(matrix) returns a NEW matrix. Rows become columns.\nDo not change the original matrix.\n\nExample: m = [[1, 2, 3],\n              [4, 5, 6]]\nshape(m)     -> (2, 3)\ntranspose(m) -> [[1, 4], [2, 5], [3, 6]]\n\nRun: python3 exercises/03_matrix_shape.py\n\"\"\"\n\n\ndef shape(matrix):\n    pass\n\n\ndef transpose(matrix):\n    pass\n"
+  "starter": "\"\"\"Exercise 03: shape and transpose\n\nA matrix here is a list of rows (a list of lists). All rows have the same length.\nshape(matrix) returns a tuple (rows, cols). For [] return (0, 0).\ntranspose(matrix) returns a NEW matrix. Rows become columns.\nDo not change the original matrix.\n\nExample: m = [[1, 2, 3],\n              [4, 5, 6]]\nshape(m)     -> (2, 3)\ntranspose(m) -> [[1, 4], [2, 5], [3, 6]]\n\nRun: python3 exercises/03_matrix_shape.py\n\"\"\"\n\n\ndef shape(matrix):\n    pass\n\n\ndef transpose(matrix):\n    pass\n",
+  "checks": "m = [[1, 2, 3], [4, 5, 6]]\nassert shape(m) == (2, 3)\nassert shape([[1], [2], [3]]) == (3, 1)\nassert shape([]) == (0, 0)\nassert transpose(m) == [[1, 4], [2, 5], [3, 6]]\nassert m == [[1, 2, 3], [4, 5, 6]], \"Do not change the original\"\nassert transpose([[1, 2, 3]]) == [[1], [2], [3]]\nassert transpose([]) == []\nsquare = [[1, 2], [3, 4]]\nassert transpose(transpose(square)) == square\nassert shape(transpose(m)) == (3, 2)\nt = transpose(square)\nt[0][0] = 99\nassert square[0][0] == 1, \"transpose must build new rows\"\nprint(\"All checks passed\")\n",
+  "tryCode": "transpose([[1, 2, 3], [4, 5, 6]])"
  },
  {
   "n": 4,
@@ -187,7 +193,9 @@ window.EXERCISES = [
     "сетка"
    ]
   ],
-  "starter": "\"\"\"Exercise 04: flatten and reshape\n\nA small grey image is a 3x3 grid of pixel values (0 to 255).\nflatten(image) turns the grid into one list, row by row.\nreshape(values, rows, cols) turns a flat list into a grid with\nthat many rows and cols. If rows * cols is not the number\nof values, return None.\n\nExample: flatten([[1, 2, 3], [4, 5, 6], [7, 8, 9]]) -> [1, 2, 3, 4, 5, 6, 7, 8, 9]\n         reshape([1, 2, 3, 4], 2, 2) -> [[1, 2], [3, 4]]\n         reshape([1, 2, 3], 2, 2) -> None\n\nRun: python3 exercises/04_flatten_reshape.py\n\"\"\"\n\n\ndef flatten(image):\n    pass\n\n\ndef reshape(values, rows, cols):\n    pass\n"
+  "starter": "\"\"\"Exercise 04: flatten and reshape\n\nA small grey image is a 3x3 grid of pixel values (0 to 255).\nflatten(image) turns the grid into one list, row by row.\nreshape(values, rows, cols) turns a flat list into a grid with\nthat many rows and cols. If rows * cols is not the number\nof values, return None.\n\nExample: flatten([[1, 2, 3], [4, 5, 6], [7, 8, 9]]) -> [1, 2, 3, 4, 5, 6, 7, 8, 9]\n         reshape([1, 2, 3, 4], 2, 2) -> [[1, 2], [3, 4]]\n         reshape([1, 2, 3], 2, 2) -> None\n\nRun: python3 exercises/04_flatten_reshape.py\n\"\"\"\n\n\ndef flatten(image):\n    pass\n\n\ndef reshape(values, rows, cols):\n    pass\n",
+  "checks": "img = [[10, 20, 30], [40, 50, 60], [70, 80, 90]]\nassert flatten(img) == [10, 20, 30, 40, 50, 60, 70, 80, 90]\nassert flatten([[1, 2], [3, 4], [5, 6]]) == [1, 2, 3, 4, 5, 6]\nassert flatten([]) == []\nassert reshape([1, 2, 3, 4], 2, 2) == [[1, 2], [3, 4]]\nassert reshape([1, 2, 3, 4, 5, 6], 2, 3) == [[1, 2, 3], [4, 5, 6]]\nassert reshape([1, 2, 3, 4, 5, 6], 3, 2) == [[1, 2], [3, 4], [5, 6]]\nassert reshape([1, 2, 3], 2, 2) is None\nassert reshape([1, 2, 3, 4, 5], 2, 2) is None\nassert reshape(flatten(img), 3, 3) == img\nassert flatten(reshape(list(range(12)), 3, 4)) == list(range(12))\nprint(\"All checks passed\")\n",
+  "tryCode": "reshape([1, 2, 3, 4, 5, 6, 7, 8, 9], 3, 3)"
  },
  {
   "n": 5,
@@ -228,7 +236,9 @@ window.EXERCISES = [
     "равный"
    ]
   ],
-  "starter": "\"\"\"Exercise 05: scale_0_1\n\nModels like numbers on the same scale. Min-max scaling puts\nall values between 0 and 1.\nFor each value: (value - smallest) / (biggest - smallest).\nIn words: how far is the value from the smallest, as a part of the full range?\nThe smallest value becomes 0.0. The biggest becomes 1.0.\nIf all values are equal, the range is 0 and you cannot divide.\nIn that case return 0.0 for every value. For [] return [].\nDo not change the input list.\n\nExample: scale_0_1([10, 20, 30]) -> [0.0, 0.5, 1.0]\n\nRun: python3 exercises/05_scale_0_1.py\n\"\"\"\n\n\ndef scale_0_1(values):\n    pass\n"
+  "starter": "\"\"\"Exercise 05: scale_0_1\n\nModels like numbers on the same scale. Min-max scaling puts\nall values between 0 and 1.\nFor each value: (value - smallest) / (biggest - smallest).\nIn words: how far is the value from the smallest, as a part of the full range?\nThe smallest value becomes 0.0. The biggest becomes 1.0.\nIf all values are equal, the range is 0 and you cannot divide.\nIn that case return 0.0 for every value. For [] return [].\nDo not change the input list.\n\nExample: scale_0_1([10, 20, 30]) -> [0.0, 0.5, 1.0]\n\nRun: python3 exercises/05_scale_0_1.py\n\"\"\"\n\n\ndef scale_0_1(values):\n    pass\n",
+  "checks": "assert scale_0_1([10, 20, 30]) == [0.0, 0.5, 1.0]\nassert scale_0_1([0, 5, 10]) == [0.0, 0.5, 1.0]\nassert scale_0_1([-1, 0, 1]) == [0.0, 0.5, 1.0]\nassert scale_0_1([7, 7, 7]) == [0.0, 0.0, 0.0]\nassert scale_0_1([4]) == [0.0]\nassert scale_0_1([]) == []\nout = scale_0_1([10, 20, 40])\nassert abs(out[1] - 1 / 3) < 1e-9 and out[2] == 1.0\ndata = [3, 1, 2]\nscale_0_1(data)\nassert data == [3, 1, 2], \"Do not change the input\"\nassert scale_0_1([3, 1, 2]) == [1.0, 0.0, 0.5]\nprint(\"All checks passed\")\n",
+  "tryCode": "scale_0_1([10, 20, 30, 40, 100])"
  },
  {
   "n": 6,
@@ -269,7 +279,9 @@ window.EXERCISES = [
     "нижний регистр"
    ]
   ],
-  "starter": "\"\"\"Exercise 06: tokenize\n\nA language model first cuts text into small pieces called tokens.\nHere a token is a word. Write tokenize(text):\n1. make all letters lowercase\n2. remove every punctuation character\n3. split the text into words\nReturn the list of words. Extra spaces must not make empty words.\n\nExample: tokenize(\"Hello, World!\") -> [\"hello\", \"world\"]\n         tokenize(\"It's me.\") -> [\"its\", \"me\"]\n\nRun: python3 exercises/06_tokenize.py\n\"\"\"\n\n\ndef tokenize(text):\n    pass\n"
+  "starter": "\"\"\"Exercise 06: tokenize\n\nA language model first cuts text into small pieces called tokens.\nHere a token is a word. Write tokenize(text):\n1. make all letters lowercase\n2. remove every punctuation character\n3. split the text into words\nReturn the list of words. Extra spaces must not make empty words.\n\nExample: tokenize(\"Hello, World!\") -> [\"hello\", \"world\"]\n         tokenize(\"It's me.\") -> [\"its\", \"me\"]\n\nRun: python3 exercises/06_tokenize.py\n\"\"\"\n\n\ndef tokenize(text):\n    pass\n",
+  "checks": "assert tokenize(\"Hello, World!\") == [\"hello\", \"world\"]\nassert tokenize(\"The cat sat.\") == [\"the\", \"cat\", \"sat\"]\nassert tokenize(\"It's me.\") == [\"its\", \"me\"]\nassert tokenize(\"  many    spaces  here \") == [\"many\", \"spaces\", \"here\"]\nassert tokenize(\"\") == []\nassert tokenize(\"!!! ... ???\") == []\nassert tokenize(\"Wait... what?!\") == [\"wait\", \"what\"]\nassert tokenize(\"ONE Two tHrEe\") == [\"one\", \"two\", \"three\"]\nassert tokenize(\"line one\\nline two\") == [\"line\", \"one\", \"line\", \"two\"]\nprint(\"All checks passed\")\n",
+  "tryCode": "tokenize(\"Hello, World! It's me.\")"
  },
  {
   "n": 7,
@@ -310,7 +322,9 @@ window.EXERCISES = [
     "ничья"
    ]
   ],
-  "starter": "\"\"\"Exercise 07: top_words\n\nWhich words appear most? Write top_words(tokens, n).\nReturn a list of (word, count) tuples with the n most common words.\nMost common first. If two words have the same count, put the word\nthat comes first in the alphabet first.\nIf n is bigger than the number of different words, return all of them.\n\nExample: top_words([\"a\", \"b\", \"a\", \"c\", \"b\", \"a\"], 2) -> [(\"a\", 3), (\"b\", 2)]\n\nRun: python3 exercises/07_top_words.py\n\"\"\"\n\n\ndef top_words(tokens, n):\n    pass\n"
+  "starter": "\"\"\"Exercise 07: top_words\n\nWhich words appear most? Write top_words(tokens, n).\nReturn a list of (word, count) tuples with the n most common words.\nMost common first. If two words have the same count, put the word\nthat comes first in the alphabet first.\nIf n is bigger than the number of different words, return all of them.\n\nExample: top_words([\"a\", \"b\", \"a\", \"c\", \"b\", \"a\"], 2) -> [(\"a\", 3), (\"b\", 2)]\n\nRun: python3 exercises/07_top_words.py\n\"\"\"\n\n\ndef top_words(tokens, n):\n    pass\n",
+  "checks": "tokens = [\"a\", \"b\", \"a\", \"c\", \"b\", \"a\"]\nassert top_words(tokens, 2) == [(\"a\", 3), (\"b\", 2)]\nassert top_words(tokens, 1) == [(\"a\", 3)]\nassert top_words(tokens, 10) == [(\"a\", 3), (\"b\", 2), (\"c\", 1)]\nassert top_words([], 3) == []\nassert top_words(tokens, 0) == []\n# Ties: the alphabet decides\nassert top_words([\"z\", \"y\", \"x\"], 3) == [(\"x\", 1), (\"y\", 1), (\"z\", 1)]\nassert top_words([\"b\", \"a\", \"b\", \"a\", \"c\"], 2) == [(\"a\", 2), (\"b\", 2)]\nprint(\"All checks passed\")\n",
+  "tryCode": "top_words([\"a\", \"b\", \"a\", \"c\", \"b\", \"a\"], 3)"
  },
  {
   "n": 8,
@@ -351,7 +365,9 @@ window.EXERCISES = [
     "кодировать"
    ]
   ],
-  "starter": "\"\"\"Exercise 08: build_vocab, encode, decode\n\nModels use numbers, not words. A vocabulary maps each word to an id.\nbuild_vocab(tokens) returns a dict {word: id}.\n  - \"<unk>\" always gets id 0. It means \"unknown word\".\n  - Other words get ids 1, 2, 3 ... in the order of first appearance.\n  - Each different word appears once.\nencode(tokens, vocab) returns a list of ids. A word not in vocab gets the id of \"<unk>\".\ndecode(ids, vocab) returns a list of words. An id not in vocab becomes \"<unk>\".\n\nExample: vocab = build_vocab([\"the\", \"cat\", \"the\", \"dog\"])\n         vocab -> {\"<unk>\": 0, \"the\": 1, \"cat\": 2, \"dog\": 3}\n         encode([\"the\", \"bird\"], vocab) -> [1, 0]\n         decode([2, 3], vocab) -> [\"cat\", \"dog\"]\n\nRun: python3 exercises/08_vocab.py\n\"\"\"\n\n\ndef build_vocab(tokens):\n    pass\n\n\ndef encode(tokens, vocab):\n    pass\n\n\ndef decode(ids, vocab):\n    pass\n"
+  "starter": "\"\"\"Exercise 08: build_vocab, encode, decode\n\nModels use numbers, not words. A vocabulary maps each word to an id.\nbuild_vocab(tokens) returns a dict {word: id}.\n  - \"<unk>\" always gets id 0. It means \"unknown word\".\n  - Other words get ids 1, 2, 3 ... in the order of first appearance.\n  - Each different word appears once.\nencode(tokens, vocab) returns a list of ids. A word not in vocab gets the id of \"<unk>\".\ndecode(ids, vocab) returns a list of words. An id not in vocab becomes \"<unk>\".\n\nExample: vocab = build_vocab([\"the\", \"cat\", \"the\", \"dog\"])\n         vocab -> {\"<unk>\": 0, \"the\": 1, \"cat\": 2, \"dog\": 3}\n         encode([\"the\", \"bird\"], vocab) -> [1, 0]\n         decode([2, 3], vocab) -> [\"cat\", \"dog\"]\n\nRun: python3 exercises/08_vocab.py\n\"\"\"\n\n\ndef build_vocab(tokens):\n    pass\n\n\ndef encode(tokens, vocab):\n    pass\n\n\ndef decode(ids, vocab):\n    pass\n",
+  "checks": "vocab = build_vocab([\"the\", \"cat\", \"the\", \"dog\"])\nassert vocab == {\"<unk>\": 0, \"the\": 1, \"cat\": 2, \"dog\": 3}\nassert build_vocab([]) == {\"<unk>\": 0}\nassert encode([\"the\", \"dog\"], vocab) == [1, 3]\nassert encode([\"the\", \"bird\"], vocab) == [1, 0]\nassert encode([], vocab) == []\nassert decode([2, 3], vocab) == [\"cat\", \"dog\"]\nassert decode([1, 99], vocab) == [\"the\", \"<unk>\"]\nassert decode(encode([\"cat\", \"the\"], vocab), vocab) == [\"cat\", \"the\"]\n# Unknown words are lost after a round trip:\nassert decode(encode([\"bird\"], vocab), vocab) == [\"<unk>\"]\nprint(\"All checks passed\")\n",
+  "tryCode": "build_vocab([\"the\", \"cat\", \"the\", \"dog\"])"
  },
  {
   "n": 9,
@@ -391,7 +407,9 @@ window.EXERCISES = [
     "языковая модель"
    ]
   ],
-  "starter": "\"\"\"Exercise 09: bigram_counts and predict_next\n\nA bigram is two words next to each other. Count which word follows which.\nbigram_counts(tokens) returns a dict of dicts:\n    counts[first][second] = how many times \"second\" came right after \"first\"\nOnly words that have a follower become keys.\npredict_next(counts, word) returns the follower with the highest count.\nIf two followers have the same count, return the one first in the alphabet.\nIf the word is unknown, return None.\n\nExample: bigram_counts([\"a\", \"b\", \"a\", \"b\", \"a\", \"c\"])\n         -> {\"a\": {\"b\": 2, \"c\": 1}, \"b\": {\"a\": 2}}\n         predict_next(counts, \"a\") -> \"b\"\n\nRun: python3 exercises/09_bigrams.py\n\"\"\"\n\n\ndef bigram_counts(tokens):\n    pass\n\n\ndef predict_next(counts, word):\n    pass\n"
+  "starter": "\"\"\"Exercise 09: bigram_counts and predict_next\n\nA bigram is two words next to each other. Count which word follows which.\nbigram_counts(tokens) returns a dict of dicts:\n    counts[first][second] = how many times \"second\" came right after \"first\"\nOnly words that have a follower become keys.\npredict_next(counts, word) returns the follower with the highest count.\nIf two followers have the same count, return the one first in the alphabet.\nIf the word is unknown, return None.\n\nExample: bigram_counts([\"a\", \"b\", \"a\", \"b\", \"a\", \"c\"])\n         -> {\"a\": {\"b\": 2, \"c\": 1}, \"b\": {\"a\": 2}}\n         predict_next(counts, \"a\") -> \"b\"\n\nRun: python3 exercises/09_bigrams.py\n\"\"\"\n\n\ndef bigram_counts(tokens):\n    pass\n\n\ndef predict_next(counts, word):\n    pass\n",
+  "checks": "assert bigram_counts([\"a\", \"b\", \"a\", \"b\", \"a\", \"c\"]) == {\"a\": {\"b\": 2, \"c\": 1}, \"b\": {\"a\": 2}}\nassert bigram_counts([]) == {}\nassert bigram_counts([\"solo\"]) == {}\ntext = \"the cat sat on the mat the cat ran\".split()\ncounts = bigram_counts(text)\nassert counts[\"the\"] == {\"cat\": 2, \"mat\": 1}\nassert counts[\"cat\"] == {\"sat\": 1, \"ran\": 1}\nassert \"ran\" not in counts\nassert predict_next(counts, \"the\") == \"cat\"\nassert predict_next(counts, \"cat\") == \"ran\"   # tie: alphabet decides\nassert predict_next(counts, \"ran\") is None    # no follower seen\nassert predict_next(counts, \"dog\") is None    # unknown word\nprint(\"All checks passed\")\n",
+  "tryCode": "bigram_counts(\"the cat sat on the mat the cat ran\".split())"
  },
  {
   "n": 10,
@@ -432,7 +450,9 @@ window.EXERCISES = [
     "начальное значение генератора"
    ]
   ],
-  "starter": "\"\"\"Exercise 10: generate\n\nNow let the model write. generate(counts, start, n, seed) uses a counts dict\nlike the one from exercise 09 (counts[first][second] = number).\nStart with the word \"start\". Then repeat up to n times:\npick the next word at random. A word with a higher count is\npicked more often. Add it to the result.\nIf the current word has no followers, stop early.\nCall random.seed(seed) first, so the same seed gives the same text.\nReturn the list of words, including start.\n\nExample: counts = {\"a\": {\"b\": 1}, \"b\": {\"c\": 1}}\n         generate(counts, \"a\", 5, 0) -> [\"a\", \"b\", \"c\"]  (stops: \"c\" has no followers)\n\nRun: python3 exercises/10_generate.py\n\"\"\"\n\n\ndef generate(counts, start, n, seed):\n    pass\n"
+  "starter": "\"\"\"Exercise 10: generate\n\nNow let the model write. generate(counts, start, n, seed) uses a counts dict\nlike the one from exercise 09 (counts[first][second] = number).\nStart with the word \"start\". Then repeat up to n times:\npick the next word at random. A word with a higher count is\npicked more often. Add it to the result.\nIf the current word has no followers, stop early.\nCall random.seed(seed) first, so the same seed gives the same text.\nReturn the list of words, including start.\n\nExample: counts = {\"a\": {\"b\": 1}, \"b\": {\"c\": 1}}\n         generate(counts, \"a\", 5, 0) -> [\"a\", \"b\", \"c\"]  (stops: \"c\" has no followers)\n\nRun: python3 exercises/10_generate.py\n\"\"\"\n\n\ndef generate(counts, start, n, seed):\n    pass\n",
+  "checks": "chain = {\"a\": {\"b\": 1}, \"b\": {\"c\": 1}}\nassert generate(chain, \"a\", 5, 0) == [\"a\", \"b\", \"c\"]\nassert generate(chain, \"a\", 1, 0) == [\"a\", \"b\"]\nassert generate(chain, \"a\", 0, 0) == [\"a\"]\nassert generate(chain, \"zzz\", 3, 0) == [\"zzz\"]\n\nloop = {\"x\": {\"y\": 1}, \"y\": {\"x\": 1}}\nassert generate(loop, \"x\", 4, 1) == [\"x\", \"y\", \"x\", \"y\", \"x\"]\n\nbranch = {\"a\": {\"b\": 5, \"c\": 5}, \"b\": {\"a\": 1}, \"c\": {\"a\": 1}}\nassert generate(branch, \"a\", 20, 7) == generate(branch, \"a\", 20, 7), \"same seed, same text\"\noutputs = set(tuple(generate(branch, \"a\", 20, s)) for s in range(10))\nassert len(outputs) > 1, \"different seeds should give different text\"\nfor text in outputs:\n    for first, second in zip(text, text[1:]):\n        assert second in branch[first], \"every step must be a seen bigram\"\n\n# Counts are weights: \"b\" is 1000 times more likely than \"c\".\nskewed = {\"a\": {\"b\": 1000, \"c\": 1}}\nfirsts = [generate(skewed, \"a\", 1, s)[1] for s in range(200)]\nassert firsts.count(\"b\") > 180\nprint(\"All checks passed\")\n",
+  "tryCode": "counts = {\"a\": {\"b\": 5, \"c\": 1}, \"b\": {\"a\": 1}, \"c\": {\"a\": 1}}\ngenerate(counts, \"a\", 8, 0)"
  },
  {
   "n": 11,
@@ -473,7 +493,9 @@ window.EXERCISES = [
     "ошибка"
    ]
   ],
-  "starter": "\"\"\"Exercise 11: accuracy and confusion_counts\n\nA model predicts labels: 1 (yes) or 0 (no). Compare with the true labels.\naccuracy(preds, labels): the part of predictions that are correct (a number from 0 to 1).\nconfusion_counts(preds, labels): a dict with four counts\n  TP = predicted 1, truth 1     FP = predicted 1, truth 0\n  TN = predicted 0, truth 0     FN = predicted 0, truth 1\nIf the lists have different lengths, return None.\nFor empty lists, accuracy is 0.0.\n\nExample: preds  = [1, 0, 1, 1]\n         labels = [1, 0, 0, 1]\n         accuracy(preds, labels) -> 0.75\n         confusion_counts(preds, labels) -> {\"TP\": 2, \"FP\": 1, \"TN\": 1, \"FN\": 0}\n\nRun: python3 exercises/11_metrics.py\n\"\"\"\n\n\ndef accuracy(preds, labels):\n    pass\n\n\ndef confusion_counts(preds, labels):\n    pass\n"
+  "starter": "\"\"\"Exercise 11: accuracy and confusion_counts\n\nA model predicts labels: 1 (yes) or 0 (no). Compare with the true labels.\naccuracy(preds, labels): the part of predictions that are correct (a number from 0 to 1).\nconfusion_counts(preds, labels): a dict with four counts\n  TP = predicted 1, truth 1     FP = predicted 1, truth 0\n  TN = predicted 0, truth 0     FN = predicted 0, truth 1\nIf the lists have different lengths, return None.\nFor empty lists, accuracy is 0.0.\n\nExample: preds  = [1, 0, 1, 1]\n         labels = [1, 0, 0, 1]\n         accuracy(preds, labels) -> 0.75\n         confusion_counts(preds, labels) -> {\"TP\": 2, \"FP\": 1, \"TN\": 1, \"FN\": 0}\n\nRun: python3 exercises/11_metrics.py\n\"\"\"\n\n\ndef accuracy(preds, labels):\n    pass\n\n\ndef confusion_counts(preds, labels):\n    pass\n",
+  "checks": "assert accuracy([1, 0, 1, 1], [1, 0, 0, 1]) == 0.75\nassert accuracy([1, 1], [1, 1]) == 1.0\nassert accuracy([1, 1], [0, 0]) == 0.0\nassert accuracy([], []) == 0.0\nassert accuracy([1], [1, 0]) is None\nassert confusion_counts([1, 0, 1, 1], [1, 0, 0, 1]) == {\"TP\": 2, \"FP\": 1, \"TN\": 1, \"FN\": 0}\nassert confusion_counts([], []) == {\"TP\": 0, \"FP\": 0, \"TN\": 0, \"FN\": 0}\nassert confusion_counts([1], [1, 0]) is None\n# A lazy model that always says 0 on rare positives:\nlabels = [0] * 95 + [1] * 5\nlazy = [0] * 100\nassert accuracy(lazy, labels) == 0.95\nassert confusion_counts(lazy, labels) == {\"TP\": 0, \"FP\": 0, \"TN\": 95, \"FN\": 5}\nprint(\"All checks passed\")\n",
+  "tryCode": "confusion_counts([1, 0, 1, 1, 0, 0], [1, 0, 0, 1, 1, 0])"
  },
  {
   "n": 12,
@@ -514,7 +536,9 @@ window.EXERCISES = [
     "оригинал"
    ]
   ],
-  "starter": "\"\"\"Exercise 12: train_test_split\n\nWe train a model on the train part. We test it on the test part.\nThe test part must stay unseen. If test data leaks into training,\nthe score looks better than it really is. This is called data leakage.\nWrite train_test_split(data, test_ratio, seed):\n  - copy the list (do NOT change the original)\n  - shuffle the copy with the given seed\n  - test size = int(len(data) * test_ratio)\n  - the first test-size items are the test part, the rest are the train part\nReturn (train, test).\n\nExample: train_test_split(list(range(10)), 0.2, 0) -> (8 items, 2 items)\n\nRun: python3 exercises/12_train_test_split.py\n\"\"\"\nimport random\n\n\ndef train_test_split(data, test_ratio, seed):\n    pass\n"
+  "starter": "\"\"\"Exercise 12: train_test_split\n\nWe train a model on the train part. We test it on the test part.\nThe test part must stay unseen. If test data leaks into training,\nthe score looks better than it really is. This is called data leakage.\nWrite train_test_split(data, test_ratio, seed):\n  - copy the list (do NOT change the original)\n  - shuffle the copy with the given seed\n  - test size = int(len(data) * test_ratio)\n  - the first test-size items are the test part, the rest are the train part\nReturn (train, test).\n\nExample: train_test_split(list(range(10)), 0.2, 0) -> (8 items, 2 items)\n\nRun: python3 exercises/12_train_test_split.py\n\"\"\"\nimport random\n\n\ndef train_test_split(data, test_ratio, seed):\n    pass\n",
+  "checks": "data = list(range(10))\noriginal = list(data)\ntrain, test = train_test_split(data, 0.2, 0)\nassert data == original, \"Do not change the original list\"\nassert len(train) == 8 and len(test) == 2\nassert sorted(train + test) == original, \"every item exactly once\"\nassert not set(train) & set(test), \"no item in both parts\"\nassert train_test_split(data, 0.2, 0) == (train, test), \"same seed, same split\"\nsplits = set(tuple(train_test_split(data, 0.5, s)[1]) for s in range(10))\nassert len(splits) > 1, \"different seeds should shuffle differently\"\ntrain, test = train_test_split(data, 0.0, 1)\nassert test == [] and len(train) == 10\ntrain, test = train_test_split([], 0.3, 1)\nassert train == [] and test == []\ntrain, test = train_test_split(data, 0.35, 3)\nassert len(test) == 3 and len(train) == 7\nassert train is not data and test is not data\nprint(\"All checks passed\")\n",
+  "tryCode": "train_test_split(list(range(10)), 0.3, 0)"
  },
  {
   "n": 13,
@@ -554,7 +578,9 @@ window.EXERCISES = [
     "ленивый (по требованию)"
    ]
   ],
-  "starter": "\"\"\"Exercise 13: batches\n\nBig data does not fit in memory at once. Models read it in small groups\ncalled batches. Write batches(data, size) as a GENERATOR:\nuse yield, not return. Each yield gives a list with size items.\nThe last batch can be smaller. Do not build all batches first.\n\nExample: list(batches([1, 2, 3, 4, 5], 2)) -> [[1, 2], [3, 4], [5]]\n\nRun: python3 exercises/13_batches.py\n\"\"\"\n\n\ndef batches(data, size):\n    pass\n"
+  "starter": "\"\"\"Exercise 13: batches\n\nBig data does not fit in memory at once. Models read it in small groups\ncalled batches. Write batches(data, size) as a GENERATOR:\nuse yield, not return. Each yield gives a list with size items.\nThe last batch can be smaller. Do not build all batches first.\n\nExample: list(batches([1, 2, 3, 4, 5], 2)) -> [[1, 2], [3, 4], [5]]\n\nRun: python3 exercises/13_batches.py\n\"\"\"\n\n\ndef batches(data, size):\n    pass\n",
+  "checks": "import inspect\nassert list(batches([1, 2, 3, 4, 5], 2)) == [[1, 2], [3, 4], [5]]\nassert list(batches([1, 2, 3, 4], 2)) == [[1, 2], [3, 4]]\nassert list(batches([1, 2, 3], 5)) == [[1, 2, 3]]\nassert list(batches([], 3)) == []\nassert list(batches([1, 2, 3], 1)) == [[1], [2], [3]]\ng = batches([1, 2, 3, 4], 2)\nassert inspect.isgenerator(g), \"use yield so batches is a generator\"\nassert next(g) == [1, 2]\nassert next(g) == [3, 4]\ntotal = 0\nfor b in batches(list(range(100)), 8):\n    total += len(b)\nassert total == 100\nprint(\"All checks passed\")\n",
+  "tryCode": "list(batches([1, 2, 3, 4, 5, 6, 7], 3))"
  },
  {
   "n": 14,
@@ -596,7 +622,9 @@ window.EXERCISES = [
     "индекс"
    ]
   ],
-  "starter": "\"\"\"Exercise 14: Dataset class\n\nLibraries like PyTorch use a Dataset: an object that knows its size\nand gives one example by position. Write class Dataset:\n  - __init__(self, items, labels): store both lists\n  - __len__(self): how many examples\n  - __getitem__(self, index): return the tuple (item, label) at that position\nNegative index must work like in a list: ds[-1] is the last example.\nAn index that is too big must raise IndexError.\n\nExample: ds = Dataset([\"cat.png\", \"dog.png\"], [0, 1])\n         len(ds) -> 2     ds[1] -> (\"dog.png\", 1)\n\nRun: python3 exercises/14_dataset.py\n\"\"\"\n\n\nclass Dataset:\n    pass\n"
+  "starter": "\"\"\"Exercise 14: Dataset class\n\nLibraries like PyTorch use a Dataset: an object that knows its size\nand gives one example by position. Write class Dataset:\n  - __init__(self, items, labels): store both lists\n  - __len__(self): how many examples\n  - __getitem__(self, index): return the tuple (item, label) at that position\nNegative index must work like in a list: ds[-1] is the last example.\nAn index that is too big must raise IndexError.\n\nExample: ds = Dataset([\"cat.png\", \"dog.png\"], [0, 1])\n         len(ds) -> 2     ds[1] -> (\"dog.png\", 1)\n\nRun: python3 exercises/14_dataset.py\n\"\"\"\n\n\nclass Dataset:\n    pass\n",
+  "checks": "ds = Dataset([\"cat.png\", \"dog.png\", \"bird.png\"], [0, 1, 2])\nassert len(ds) == 3\nassert ds[0] == (\"cat.png\", 0)\nassert ds[2] == (\"bird.png\", 2)\nassert ds[-1] == (\"bird.png\", 2)\nassert len(Dataset([], [])) == 0\ntry:\n    ds[3]\n    raise AssertionError(\"ds[3] should raise IndexError\")\nexcept IndexError:\n    pass\n# Python can now loop over your object with a plain for loop:\nseen = []\nfor pair in ds:\n    seen.append(pair)\nassert seen == [(\"cat.png\", 0), (\"dog.png\", 1), (\"bird.png\", 2)]\n# Two objects do not share data:\nother = Dataset([1], [9])\nassert len(other) == 1 and len(ds) == 3\nprint(\"All checks passed\")\n",
+  "tryCode": "ds = Dataset([\"cat.png\", \"dog.png\", \"bird.png\"], [0, 1, 2])\nds[1]"
  },
  {
   "n": 15,
@@ -638,6 +666,8 @@ window.EXERCISES = [
     "метка"
    ]
   ],
-  "starter": "\"\"\"Exercise 15: NearestNeighbor\n\nA nearest-neighbor model has no training maths. It remembers examples.\nTo predict, it finds the closest remembered example and gives its label.\nDistance: squared distance between two points =\n  take the difference in each position, square it, add all.\n(We skip the square root. The order of distances stays the same.)\n\nclass NearestNeighbor:\n  - fit(self, X, y): remember X (list of points) and y (list of labels)\n  - predict(self, x): return the label of the closest point in X.\n    If two points are equally close, the one that comes first in X wins.\n    If fit was never called, return None.\n\nExample: model = NearestNeighbor()\n         model.fit([[0, 0], [10, 10]], [\"small\", \"big\"])\n         model.predict([2, 1]) -> \"small\"\n\nRun: python3 exercises/15_nearest_neighbor.py\n\"\"\"\n\n\nclass NearestNeighbor:\n    pass\n"
+  "starter": "\"\"\"Exercise 15: NearestNeighbor\n\nA nearest-neighbor model has no training maths. It remembers examples.\nTo predict, it finds the closest remembered example and gives its label.\nDistance: squared distance between two points =\n  take the difference in each position, square it, add all.\n(We skip the square root. The order of distances stays the same.)\n\nclass NearestNeighbor:\n  - fit(self, X, y): remember X (list of points) and y (list of labels)\n  - predict(self, x): return the label of the closest point in X.\n    If two points are equally close, the one that comes first in X wins.\n    If fit was never called, return None.\n\nExample: model = NearestNeighbor()\n         model.fit([[0, 0], [10, 10]], [\"small\", \"big\"])\n         model.predict([2, 1]) -> \"small\"\n\nRun: python3 exercises/15_nearest_neighbor.py\n\"\"\"\n\n\nclass NearestNeighbor:\n    pass\n",
+  "checks": "model = NearestNeighbor()\nassert model.predict([1, 1]) is None, \"predict before fit gives None\"\nmodel.fit([[0, 0], [10, 10]], [\"a\", \"b\"])\nassert model.predict([1, 1]) == \"a\"\nassert model.predict([9, 8]) == \"b\"\nassert model.predict([5, 5]) == \"a\", \"tie: first point wins\"\nmodel.fit([[0], [4], [9]], [\"x\", \"y\", \"z\"])\nassert model.predict([3]) == \"y\"\nassert model.predict([100]) == \"z\"\nassert model.predict([-50]) == \"x\"\nother = NearestNeighbor()\nother.fit([[1, 2, 3]], [\"only\"])\nassert other.predict([9, 9, 9]) == \"only\"\nassert model.predict([4]) == \"y\", \"models do not share memory\"\nprint(\"All checks passed\")\n",
+  "tryCode": "model = NearestNeighbor()\nmodel.fit([[0, 0], [10, 10], [0, 9]], [\"a\", \"b\", \"c\"])\nmodel.predict([1, 8])"
  }
 ];

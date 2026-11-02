@@ -8,6 +8,9 @@ You write simple versions of library ideas by hand. Then the real library feels 
 Site: https://ank8dev.github.io/before-the-libraries/
 
 ## How to use it
+**On the site:** each exercise has an editor. Press *Run example* to see pictures of the input and the output. Press *Check my code* to run all checks. Python runs inside your browser (Pyodide, loaded from a CDN). Your code and progress are saved in your browser only.
+
+**On your computer:**
 1. Open the site. Pick an exercise. Read the task.
 2. Answer the "Predict first" question before you run anything.
 3. Open `exercises/01_add_vectors.py`. Write your code in the stub (replace `pass`).
