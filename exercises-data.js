@@ -1,6 +1,6 @@
 // All site content lives here. Change SITE.title to rename the site.
 window.SITE = {
-  "title": "Before the Libraries",
+  "title": "BtLib.python by ank",
   "subtitle": "15 small Python exercises that prepare you for NumPy, pandas, scikit-learn and PyTorch.",
   "repo": "https://github.com/ank8dev/before-the-libraries",
   "branch": "main",
@@ -9,16 +9,22 @@ window.SITE = {
       "code": "en",
       "name": "English"
     },
-    { "code": "ru", "name": "Русский" },
-    { "code": "es", "name": "Español" },
-    { "code": "zh", "name": "中文" },
-    { "code": "hi", "name": "हिन्दी" },
-    { "code": "pt", "name": "Português" },
-    { "code": "fr", "name": "Français" },
-    { "code": "de", "name": "Deutsch" },
-    { "code": "ja", "name": "日本語" },
-    { "code": "ko", "name": "한국어" },
-    { "code": "id", "name": "Bahasa Indonesia" }
+    {
+      "code": "ru",
+      "name": "Русский"
+    },
+    {
+      "code": "es",
+      "name": "Español"
+    },
+    {
+      "code": "zh",
+      "name": "中文"
+    },
+    {
+      "code": "hi",
+      "name": "हिन्दी"
+    }
   ]
 };
 window.BLOCKS = [
