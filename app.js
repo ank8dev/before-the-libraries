@@ -1,6 +1,50 @@
 (function () {
   "use strict";
   var SITE = window.SITE, BLOCKS = window.BLOCKS, EX = window.EXERCISES;
+  var UI = {
+    doneCount: "{n}/{total} done", contents: "Contents", skip: "Skip to content", design: "How this was designed", repo: "Source on GitHub", langLabel: "Language",
+    progress: "Progress: {n}/{total}", start: "Start with exercise 1", cont: "Continue: {title}", allDone: "All done. Review exercise 1",
+    howTo: "How to work",
+    steps: ["Read the task. Answer the Predict first question in your head.", "Use Run example. The pictures show what goes in and what comes out.", "Write your code in the editor. Use the Look this up terms. Open a hint only when you are stuck.", "Press Check my code. Every check shows pass or fail, with what you got and what was expected.", "When all checks pass, the exercise is marked done and the Library connection appears."],
+    localNote: "Your code and progress stay in this browser only. Python runs inside the page. Nothing is sent to a server.",
+    resetAll: "Reset all progress and saved code", confirmReset: "Delete all progress and saved code in this browser?",
+    exOf: "Exercise {n} of {total}", why: "Why this matters in AI", task: "The task", exIn: "Example input", exOut: "Example output",
+    predict: "Predict first", predictNote: "Write your answer down. Then use Run example and compare.", lookup: "Look this up",
+    hints: "Hints", hint: "Hint {n}", lib: "Library connection", libLocked: "Hidden until you mark this exercise done. Solve it first.", markDone: "Mark done",
+    bench: "Workbench", copy: "Copy starter code", copied: "Copied", copyFail: "Copy failed", reset: "Reset to starter", confirmStarter: "Replace your code with the starter code?",
+    gh: "File on GitHub", edNote: "Tab indents. Press Esc, then Tab, to leave the editor. Ctrl+Enter runs the example. Ctrl+Shift+Enter checks your code.",
+    runEx: "Run example", check: "Check my code", running: "Running...", tryTitle: "Example to run (you can change it)", checksTitle: "Checks",
+    py_idle: "Python: not started", py_loading: "Python: loading (about 10 MB, first time only)...", py_ready: "Python: ready",
+    py_failed: "Python: not available here. Run the file on your computer instead.",
+    errTitle: "Python stopped with an error", errLine: "(line {n} of {where})", whereCode: "your code", whereExample: "the example",
+    unavail: "Python could not load in this browser (no internet, or the CDN is blocked). You can still do the exercise: open the file from the repo and run python3 on your computer.",
+    timeout: "Stopped after 8 seconds. Maybe a loop never ends? Check your while loop.",
+    allPassed: "All {n} checks passed.", somePassed: "{ok} of {n} checks passed.", pass: "pass", fail: "fail",
+    gives: "your code gives", wants: "the check wants ({op})", printed: "Printed output", returns: "your function returns", output: "Output", input: "Input: {name}",
+    nothing: "Nothing to show. Put an expression on the last line, for example a function call.",
+    marked: "Exercise marked done.", libPrefix: "Library connection:", next: "Next: {title}", aria_editor: "Python code editor", aria_snip: "Example code to run",
+    v_object: "object", v_none: "nothing (None)", v_text: "text", v_bool: "True or False", v_number: "number", v_emptyList: "empty list", v_listNums: "list of {n} numbers",
+    v_pairs: "{n} pairs (word, count)", v_grid: "grid: {r} rows x {c} columns", v_ragged: "{n} lists of different length", v_listItems: "list of {n} items",
+    v_emptyDict: "empty dict", v_dictKeys: "dict with {n} keys", v_matrix: "table: row = first word, column = next word, number = count", v_corner: "first \\ next", v_value: "value", v_key: "key"
+  };
+  var lang = "";
+  try { lang = localStorage.getItem("btl-lang") || ""; } catch (e) { lang = ""; }
+  if (!lang) lang = (navigator.language || "en").slice(0, 2).toLowerCase();
+  if (!SITE.langs.some(function (l) { return l.code === lang; })) lang = "en";
+  window.I18N = window.I18N || {};
+  function D() { return window.I18N[lang] || null; }
+  function S(key, vars) {
+    var d = D(), s = (d && d.ui && d.ui[key] !== undefined) ? d.ui[key] : UI[key];
+    if (vars && typeof s === "string") Object.keys(vars).forEach(function (k) { s = s.split("{" + k + "}").join(vars[k]); });
+    return s;
+  }
+  function X(x, f) { var d = D(), e = d && d.ex && d.ex[x.id]; return (e && e[f] !== undefined) ? e[f] : x[f]; }
+  function BT(b, f) { var d = D(), e = d && d.blocks && d.blocks[b.id]; return (e && e[f]) || b[f]; }
+  function loadLang(code, cb) {
+    if (code === "en" || window.I18N[code]) return cb();
+    var sc = document.createElement("script"); sc.src = "lang/" + code + ".js"; sc.onload = cb; sc.onerror = cb; document.head.appendChild(sc);
+  }
+
   var KEY = "btl-done-v1", CODE_KEY = "btl-code-v1-";
 
   // ---------- storage (always safe without localStorage) ----------
@@ -33,11 +77,28 @@
     menuBtn.setAttribute("aria-expanded", String(open));
   });
 
+  var langSel = document.getElementById("lang");
+  SITE.langs.forEach(function (l) { langSel.appendChild(el("option", { value: l.code, text: l.name })); });
+  langSel.value = lang;
+  langSel.addEventListener("change", function () {
+    lang = langSel.value;
+    try { localStorage.setItem("btl-lang", lang); } catch (e) { /* ok */ }
+    loadLang(lang, route);
+  });
+  function chrome() {
+    document.documentElement.lang = lang;
+    menuBtn.textContent = S("contents");
+    langSel.setAttribute("aria-label", S("langLabel"));
+    document.querySelector(".skip").textContent = S("skip");
+    document.getElementById("design-link").textContent = S("design");
+    document.getElementById("repo-link").textContent = S("repo");
+  }
+
   // ---------- Python runner (Pyodide in a Web Worker) ----------
   var runner = { worker: null, state: "idle", ready: null, jobs: {}, nextId: 1 };
   function setState(s) {
     runner.state = s;
-    var txt = { idle: "Python: not started", loading: "Python: loading (about 10 MB, first time only)...", ready: "Python: ready", failed: "Python: not available here. Run the file on your computer instead." }[s];
+    var txt = S("py_" + s);
     Array.prototype.forEach.call(document.querySelectorAll(".py-status"), function (n) { n.textContent = txt; n.setAttribute("data-state", s); });
   }
   function startWorker() {
@@ -77,7 +138,7 @@
   function renderNav(current) {
     clear(nav);
     BLOCKS.forEach(function (b) {
-      nav.appendChild(T("h2", b.title));
+      nav.appendChild(T("h2", BT(b, "title")));
       var ul = el("ul");
       EX.filter(function (x) { return x.block === b.id; }).forEach(function (x) {
         var a = el("a", { href: "#" + x.id }, [T("span", String(x.n).padStart(2, "0"), "num"), T("span", x.title)]);
@@ -89,33 +150,33 @@
     });
   }
   function renderProgress() {
-    document.getElementById("progress").textContent = count() + "/" + EX.length + " done";
+    document.getElementById("progress").textContent = S("doneCount", { n: count(), total: EX.length });
   }
 
   function home() {
     clear(main);
     main.className = "";
     main.appendChild(T("h1", SITE.title));
-    main.appendChild(T("p", SITE.subtitle, "lede"));
+    main.appendChild(T("p", (D() && D().subtitle) || SITE.subtitle, "lede"));
     var bar = el("div", { "class": "bar", role: "progressbar", "aria-valuemin": "0", "aria-valuemax": String(EX.length), "aria-valuenow": String(count()), "aria-label": "Progress" }, [el("div", { style: "width:" + (100 * count() / EX.length) + "%" })]);
     main.appendChild(bar);
-    main.appendChild(T("p", "Progress: " + count() + "/" + EX.length));
+    main.appendChild(T("p", S("progress", { n: count(), total: EX.length })));
     var next = EX.filter(function (x) { return !done[x.id]; })[0];
     var row = el("p", { "class": "row" });
-    row.appendChild(el("a", { "class": "btn primary", href: "#" + (next || EX[0]).id, text: count() === 0 ? "Start with exercise 1" : (next ? "Continue: " + next.title : "All done. Review exercise 1") }));
+    row.appendChild(el("a", { "class": "btn primary", href: "#" + (next || EX[0]).id, text: count() === 0 ? S("start") : (next ? S("cont", { title: next.title }) : S("allDone")) }));
     main.appendChild(row);
-    main.appendChild(T("h2", "How to work"));
+    main.appendChild(T("h2", S("howTo")));
     var ol = el("ol");
-    ["Read the task. Answer the Predict first question in your head.", "Use Run example. The pictures show what goes in and what comes out.", "Write your code in the editor. Use the Look this up terms. Open a hint only when you are stuck.", "Press Check my code. Every check shows pass or fail, with what you got and what was expected.", "When all checks pass, the exercise is marked done and the Library connection appears."].forEach(function (s) { ol.appendChild(T("li", s)); });
+    S("steps").forEach(function (t) { ol.appendChild(T("li", t)); });
     main.appendChild(ol);
-    main.appendChild(T("p", "Your code and progress stay in this browser only. Python runs inside the page. Nothing is sent to a server.", "note"));
+    main.appendChild(T("p", S("localNote"), "note"));
     BLOCKS.forEach(function (b) {
-      main.appendChild(T("h2", b.title));
-      main.appendChild(T("p", b.note, "note"));
+      main.appendChild(T("h2", BT(b, "title")));
+      main.appendChild(T("p", BT(b, "note"), "note"));
     });
-    var reset = el("button", { type: "button", text: "Reset all progress and saved code" });
+    var reset = el("button", { type: "button", text: S("resetAll") });
     reset.addEventListener("click", function () {
-      if (!window.confirm("Delete all progress and saved code in this browser?")) return;
+      if (!window.confirm(S("confirmReset"))) return;
       EX.forEach(function (x) { dropCode(x); }); done = {}; save(); route();
     });
     main.appendChild(el("p", { "class": "row spaced" }, [reset]));
@@ -179,26 +240,26 @@
   }
   // Returns { caption, node } for any value.
   function viz(v) {
-    if (isRepr(v)) return { caption: "object", node: T("pre", v.__repr__) };
-    if (!Array.isArray(v) && !isDict(v)) return { caption: v === null ? "nothing (None)" : typeof v === "string" ? "text" : typeof v === "boolean" ? "True or False" : "number", node: T("div", pyrepr(v), "big") };
+    if (isRepr(v)) return { caption: S("v_object"), node: T("pre", v.__repr__) };
+    if (!Array.isArray(v) && !isDict(v)) return { caption: v === null ? S("v_none") : typeof v === "string" ? S("v_text") : typeof v === "boolean" ? S("v_bool") : S("v_number"), node: T("div", pyrepr(v), "big") };
     if (Array.isArray(v)) {
       var n = v.length;
-      if (n === 0) return { caption: "empty list", node: T("p", "[ ]  (empty)", "note") };
-      if (allOf(v, isNum)) return { caption: "list of " + n + " numbers", node: bars(v.map(function (x, i) { return [i, x]; })) };
+      if (n === 0) return { caption: S("v_emptyList"), node: T("p", "[ ]  (empty)", "note") };
+      if (allOf(v, isNum)) return { caption: S("v_listNums", { n: n }), node: bars(v.map(function (x, i) { return [i, x]; })) };
       if (allOf(v, function (p) { return Array.isArray(p) && p.length === 2 && typeof p[0] === "string" && isNum(p[1]); }))
-        return { caption: n + " pairs (word, count)", node: bars(v) };
+        return { caption: S("v_pairs", { n: n }), node: bars(v) };
       if (allOf(v, Array.isArray)) {
         var cols = Math.max.apply(null, v.map(function (r) { return r.length; }));
         var rect = allOf(v, function (r) { return r.length === cols; });
         var colL = []; for (var j = 0; j < cols; j++) colL.push(j);
         var numeric = allOf(v, function (r) { return allOf(r, isNum); });
-        return { caption: rect ? "grid: " + n + " rows x " + cols + " columns" : n + " lists of different length", node: table(v.map(function (_, i) { return "[" + i + "]"; }), colL, v, numeric, "") };
+        return { caption: rect ? S("v_grid", { r: n, c: cols }) : S("v_ragged", { n: n }), node: table(v.map(function (_, i) { return "[" + i + "]"; }), colL, v, numeric, "") };
       }
-      return { caption: "list of " + n + " items", node: chips(v) };
+      return { caption: S("v_listItems", { n: n }), node: chips(v) };
     }
     var d = v.__dict__;
-    if (d.length === 0) return { caption: "empty dict", node: T("p", "{ }  (empty)", "note") };
-    if (allOf(d, function (p) { return isNum(p[1]); })) return { caption: "dict with " + d.length + " keys", node: bars(d.map(function (p) { return [pyrepr(p[0]).replace(/^"|"$/g, ""), p[1]]; })) };
+    if (d.length === 0) return { caption: S("v_emptyDict"), node: T("p", "{ }  (empty)", "note") };
+    if (allOf(d, function (p) { return isNum(p[1]); })) return { caption: S("v_dictKeys", { n: d.length }), node: bars(d.map(function (p) { return [pyrepr(p[0]).replace(/^"|"$/g, ""), p[1]]; })) };
     if (allOf(d, function (p) { return isDict(p[1]); })) {
       var cl = [];
       d.forEach(function (p) { p[1].__dict__.forEach(function (q) { var k = pyrepr(q[0]).replace(/^"|"$/g, ""); if (cl.indexOf(k) < 0) cl.push(k); }); });
@@ -206,9 +267,9 @@
         var m = {}; p[1].__dict__.forEach(function (q) { m[pyrepr(q[0]).replace(/^"|"$/g, "")] = q[1]; });
         return cl.map(function (k) { return m[k] === undefined ? 0 : m[k]; });
       });
-      return { caption: "table: row = first word, column = next word, number = count", node: table(d.map(function (p) { return pyrepr(p[0]).replace(/^"|"$/g, ""); }), cl, rows, true, "first \\ next") };
+      return { caption: S("v_matrix"), node: table(d.map(function (p) { return pyrepr(p[0]).replace(/^"|"$/g, ""); }), cl, rows, true, S("v_corner")) };
     }
-    return { caption: "dict with " + d.length + " keys", node: table(d.map(function (p) { return pyrepr(p[0]); }), ["value"], d.map(function (p) { return [p[1]]; }), false, "key") };
+    return { caption: S("v_dictKeys", { n: d.length }), node: table(d.map(function (p) { return pyrepr(p[0]); }), [S("v_value")], d.map(function (p) { return [p[1]]; }), false, S("v_key")) };
   }
   function figure(label, v) {
     var r = viz(v);
@@ -234,7 +295,7 @@
   function makeEditor(initial, onChange) {
     var gutter = el("div", { "class": "gutter", "aria-hidden": "true" });
     var pre = el("pre", { "class": "hl", "aria-hidden": "true" }, [el("code")]);
-    var ta = el("textarea", { "class": "ta", spellcheck: "false", autocapitalize: "off", autocomplete: "off", autocorrect: "off", wrap: "off", "aria-label": "Python code editor" });
+    var ta = el("textarea", { "class": "ta", spellcheck: "false", autocapitalize: "off", autocomplete: "off", autocorrect: "off", wrap: "off", "aria-label": S("aria_editor") });
     ta.value = initial;
     var wrap = el("div", { "class": "editor" }, [gutter, el("div", { "class": "ed-body" }, [pre, ta])]);
     var errLine = null, trap = true;
@@ -279,12 +340,12 @@
 
   // ---------- results panels ----------
   function errorBox(err) {
-    var msg = err.message + (err.line ? "  (line " + err.line + " of " + err.where + ")" : "");
-    return el("div", { "class": "result bad", role: "alert" }, [T("strong", "Python stopped with an error"), T("pre", msg)]);
+    var msg = err.message + (err.line ? "  " + S("errLine", { n: err.line, where: err.where === "your code" ? S("whereCode") : S("whereExample") }) : "");
+    return el("div", { "class": "result bad", role: "alert" }, [T("strong", S("errTitle")), T("pre", msg)]);
   }
   function systemMessage(res) {
-    if (res.unavailable) return el("div", { "class": "result bad", role: "alert" }, [T("p", "Python could not load in this browser (no internet, or the CDN is blocked). You can still do the exercise: open the file from the repo and run python3 on your computer.")]);
-    if (res.timeout) return el("div", { "class": "result bad", role: "alert" }, [T("p", "Stopped after 8 seconds. Maybe a loop never ends? Check your while loop.")]);
+    if (res.unavailable) return el("div", { "class": "result bad", role: "alert" }, [T("p", S("unavail"))]);
+    if (res.timeout) return el("div", { "class": "result bad", role: "alert" }, [T("p", S("timeout"))]);
     if (res.fatal) return el("div", { "class": "result bad", role: "alert" }, [T("pre", res.fatal)]);
     return null;
   }
@@ -292,13 +353,13 @@
     clear(box);
     var sm = systemMessage(res); if (sm) { box.appendChild(sm); return; }
     if (res.error) { box.appendChild(errorBox(res.error)); if (res.error.where === "your code") editor.mark(res.error.line); }
-    if (res.stdout) box.appendChild(el("div", {}, [T("p", "Printed output", "note"), T("pre", res.stdout)]));
-    if (res.args) res.args.forEach(function (a) { box.appendChild(figure("Input: " + a.name, a.value)); });
+    if (res.stdout) box.appendChild(el("div", {}, [T("p", S("printed"), "note"), T("pre", res.stdout)]));
+    if (res.args) res.args.forEach(function (a) { box.appendChild(figure(S("input", { name: a.name }), a.value)); });
     if (res.output) {
-      if (res.args && res.args.length) box.appendChild(T("p", "↓ your function returns", "arrow"));
-      box.appendChild(figure("Output", res.output.value));
+      if (res.args && res.args.length) box.appendChild(T("p", "↓ " + S("returns"), "arrow"));
+      box.appendChild(figure(S("output"), res.output.value));
       box.appendChild(el("p", { "class": "note" }, [T("code", short(res.output.repr, 200))]));
-    } else if (!res.error) box.appendChild(T("p", "Nothing to show. Put an expression on the last line, for example a function call.", "note"));
+    } else if (!res.error) box.appendChild(T("p", S("nothing"), "note"));
   }
   function showCheck(box, res, x, editor, onPass) {
     clear(box);
@@ -306,25 +367,25 @@
     if (res.error) { box.appendChild(errorBox(res.error)); if (res.error.where === "your code") editor.mark(res.error.line); return; }
     var list = res.results, ok = list.filter(function (r) { return r.ok; }).length, all = ok === list.length && list.length > 0;
     box.appendChild(el("div", { "class": "result " + (all ? "good" : "bad"), role: "status" }, [
-      T("strong", all ? "All " + list.length + " checks passed." : ok + " of " + list.length + " checks passed.")]));
+      T("strong", all ? S("allPassed", { n: list.length }) : S("somePassed", { ok: ok, n: list.length }))]));
     if (all) onPass(box);
     var ul = el("ul", { "class": "checks" }), firstBad = true;
     list.forEach(function (r) {
       var li = el("li", { "class": r.ok ? "ok" : "fail" });
       var first = r.src.split("\n")[0], label = short(first, 70) + (r.src.indexOf("\n") >= 0 ? " …" : "");
-      if (r.ok) { li.appendChild(T("span", "pass", "tag")); li.appendChild(T("code", label)); }
+      if (r.ok) { li.appendChild(T("span", S("pass"), "tag")); li.appendChild(T("code", label)); }
       else {
         var d = el("details"); if (firstBad) { d.setAttribute("open", ""); firstBad = false; }
-        d.appendChild(el("summary", {}, [T("span", "fail", "tag"), T("code", label)]));
+        d.appendChild(el("summary", {}, [T("span", S("fail"), "tag"), T("code", label)]));
         if (r.got !== undefined) {
-          d.appendChild(el("div", { "class": "gx" }, [T("span", "your code gives"), T("code", r.got), T("span", "the check wants (" + r.op + ")"), T("code", r.expected)]));
+          d.appendChild(el("div", { "class": "gx" }, [T("span", S("gives")), T("code", r.got), T("span", S("wants", { op: r.op })), T("code", r.expected)]));
         } else d.appendChild(T("pre", r.error));
         li.appendChild(d);
       }
       ul.appendChild(li);
     });
     box.appendChild(ul);
-    if (res.stdout) box.appendChild(el("div", {}, [T("p", "Printed output", "note"), T("pre", res.stdout)]));
+    if (res.stdout) box.appendChild(el("div", {}, [T("p", S("printed"), "note"), T("pre", res.stdout)]));
   }
 
   // ---------- exercise page ----------
@@ -335,30 +396,27 @@
     var block = BLOCKS.filter(function (b) { return b.id === x.block; })[0];
 
     var top = el("div", { "class": "a-top" });
-    top.appendChild(T("p", block.title + " · Exercise " + x.n + " of " + EX.length, "kicker"));
+    top.appendChild(T("p", BT(block, "title") + " · " + S("exOf", { n: x.n, total: EX.length }), "kicker"));
     top.appendChild(T("h1", x.title));
-    top.appendChild(section("Why this matters in AI", [T("p", x.why)]));
-    var task = section("The task", x.task.map(function (p) { return T("p", p); }));
+    top.appendChild(section(S("why"), [T("p", X(x, "why"))]));
+    var task = section(S("task"), X(x, "task").map(function (p) { return T("p", p); }));
     task.appendChild(el("div", { "class": "example" }, [
-      el("div", {}, [T("span", "Example input"), document.createTextNode(x.exampleIn)]),
-      el("div", {}, [T("span", "Example output"), document.createTextNode(x.exampleOut)])]));
+      el("div", {}, [T("span", S("exIn")), document.createTextNode(x.exampleIn)]),
+      el("div", {}, [T("span", S("exOut")), document.createTextNode(x.exampleOut)])]));
     top.appendChild(task);
-    top.appendChild(el("section", { "class": "predict" }, [T("h3", "Predict first"), T("p", x.predict), T("p", "Write your answer down. Then use Run example and compare.", "note")]));
+    top.appendChild(el("section", { "class": "predict" }, [T("h3", S("predict")), T("p", X(x, "predict")), T("p", S("predictNote"), "note")]));
     var lu = el("ul"); x.lookup.forEach(function (q) { lu.appendChild(el("li", {}, [T("code", q)])); });
-    top.appendChild(section("Look this up", [lu]));
+    top.appendChild(section(S("lookup"), [lu]));
 
     var bottom = el("div", { "class": "a-bottom" });
-    var hs = section("Hints", []);
-    x.hints.forEach(function (h, i) { hs.appendChild(el("details", {}, [T("summary", "Hint " + (i + 1)), T("p", h)])); });
+    var hs = section(S("hints"), []);
+    X(x, "hints").forEach(function (h, i) { hs.appendChild(el("details", {}, [T("summary", S("hint", { n: i + 1 })), T("p", h)])); });
     bottom.appendChild(hs);
     var libBody = el("div");
-    bottom.appendChild(section("Library connection", [libBody]));
-    var dl = el("dl", { "class": "words" });
-    x.words.forEach(function (w) { dl.appendChild(T("dt", w[0])); dl.appendChild(T("dd", w[1])); });
-    bottom.appendChild(section("Words", [dl]));
+    bottom.appendChild(section(S("lib"), [libBody]));
     var cb = el("input", { type: "checkbox", id: "done-" + x.id });
     cb.checked = !!done[x.id];
-    bottom.appendChild(el("div", { "class": "done" }, [cb, el("label", { "for": "done-" + x.id, text: "Mark done" })]));
+    bottom.appendChild(el("div", { "class": "done" }, [cb, el("label", { "for": "done-" + x.id, text: S("markDone") })]));
     var prev = EX[x.n - 2], next = EX[x.n];
     var pager = el("div", { "class": "pager" });
     pager.appendChild(prev ? el("a", { href: "#" + prev.id, text: "← " + prev.title }) : el("span"));
@@ -367,7 +425,7 @@
 
     function showLib() {
       clear(libBody);
-      libBody.appendChild(done[x.id] ? T("p", x.library) : T("p", "Hidden until you mark this exercise done. Solve it first.", "locked"));
+      libBody.appendChild(done[x.id] ? T("p", X(x, "library")) : T("p", S("libLocked"), "locked"));
     }
     showLib();
     function setDone(v) {
@@ -378,56 +436,56 @@
 
     // workbench
     var bench = el("div", { "class": "a-bench" });
-    bench.appendChild(T("h2", "Workbench"));
+    bench.appendChild(T("h2", S("bench")));
     bench.appendChild(T("p", "", "py-status note"));
     var editor = makeEditor(getCode(x), function (c) { putCode(x, c); });
-    var copy = el("button", { type: "button", text: "Copy starter code" });
+    var copy = el("button", { type: "button", text: S("copy") });
     copy.addEventListener("click", function () {
-      function ok() { copy.textContent = "Copied"; setTimeout(function () { copy.textContent = "Copy starter code"; }, 1500); }
+      function ok() { copy.textContent = S("copied"); setTimeout(function () { copy.textContent = S("copy"); }, 1500); }
       function fb() {
         var ta = el("textarea", { "aria-hidden": "true" }); ta.value = x.starter; ta.style.position = "fixed"; ta.style.opacity = "0";
         document.body.appendChild(ta); ta.select();
-        try { document.execCommand("copy"); ok(); } catch (e) { copy.textContent = "Copy failed"; }
+        try { document.execCommand("copy"); ok(); } catch (e) { copy.textContent = S("copyFail"); }
         document.body.removeChild(ta);
       }
       if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(x.starter).then(ok, fb); else fb();
     });
-    var reset = el("button", { type: "button", text: "Reset to starter" });
+    var reset = el("button", { type: "button", text: S("reset") });
     reset.addEventListener("click", function () {
-      if (window.confirm("Replace your code with the starter code?")) { dropCode(x); editor.set(x.starter); }
+      if (window.confirm(S("confirmStarter"))) { dropCode(x); editor.set(x.starter); }
     });
-    var gh = el("a", { "class": "btn", href: SITE.repo + "/blob/" + SITE.branch + "/" + x.file, text: "File on GitHub" });
+    var gh = el("a", { "class": "btn", href: SITE.repo + "/blob/" + SITE.branch + "/" + x.file, text: S("gh") });
     bench.appendChild(el("div", { "class": "row tools" }, [copy, reset, gh]));
     bench.appendChild(editor.node);
-    bench.appendChild(T("p", "Tab indents. Press Esc, then Tab, to leave the editor. Ctrl+Enter runs the example. Ctrl+Shift+Enter checks your code.", "note"));
+    bench.appendChild(T("p", S("edNote"), "note"));
 
-    var runBtn = el("button", { type: "button", "class": "primary", text: "Run example" });
-    var chkBtn = el("button", { type: "button", "class": "primary", text: "Check my code" });
+    var runBtn = el("button", { type: "button", "class": "primary", text: S("runEx") });
+    var chkBtn = el("button", { type: "button", "class": "primary", text: S("check") });
     bench.appendChild(el("div", { "class": "row" }, [runBtn, chkBtn]));
 
-    bench.appendChild(T("h3", "Example to run (you can change it)"));
-    var snip = el("textarea", { "class": "snip", rows: String(x.tryCode.split("\n").length + 1), spellcheck: "false", autocapitalize: "off", "aria-label": "Example code to run" });
+    bench.appendChild(T("h3", S("tryTitle")));
+    var snip = el("textarea", { "class": "snip", rows: String(x.tryCode.split("\n").length + 1), spellcheck: "false", autocapitalize: "off", "aria-label": S("aria_snip") });
     snip.value = x.tryCode;
     bench.appendChild(snip);
     var tryBox = el("div", { "class": "out", "aria-live": "polite" });
     var chkBox = el("div", { "class": "out", "aria-live": "polite" });
     bench.appendChild(tryBox);
-    bench.appendChild(T("h3", "Checks"));
+    bench.appendChild(T("h3", S("checksTitle")));
     bench.appendChild(chkBox);
 
-    function busy(b, on, label) { b.disabled = on; b.textContent = on ? "Running..." : label; }
+    function busy(b, on, label) { b.disabled = on; b.textContent = on ? S("running") : label; }
     function doRun() {
-      busy(runBtn, true, "Run example"); editor.mark(null);
-      runJob({ kind: "try", code: editor.get(), snippet: snip.value }).then(function (res) { busy(runBtn, false, "Run example"); showTry(tryBox, res, editor); });
+      busy(runBtn, true, S("runEx")); editor.mark(null);
+      runJob({ kind: "try", code: editor.get(), snippet: snip.value }).then(function (res) { busy(runBtn, false, S("runEx")); showTry(tryBox, res, editor); });
     }
     function doCheck() {
-      busy(chkBtn, true, "Check my code"); editor.mark(null);
+      busy(chkBtn, true, S("check")); editor.mark(null);
       runJob({ kind: "check", code: editor.get(), checks: x.checks }).then(function (res) {
-        busy(chkBtn, false, "Check my code");
+        busy(chkBtn, false, S("check"));
         showCheck(chkBox, res, x, editor, function (box) {
           var first = !done[x.id]; setDone(true);
-          var n = el("div", { "class": "passnote" }, [T("p", (first ? "Exercise marked done. " : "") + "Library connection: " + x.library)]);
-          if (next) n.appendChild(el("p", {}, [el("a", { "class": "btn primary", href: "#" + next.id, text: "Next: " + next.title + " →" })]));
+          var n = el("div", { "class": "passnote" }, [T("p", (first ? S("marked") + " " : "") + S("libPrefix") + " " + X(x, "library"))]);
+          if (next) n.appendChild(el("p", {}, [el("a", { "class": "btn primary", href: "#" + next.id, text: S("next", { title: next.title }) + " →" })]));
           box.appendChild(n);
         });
       });
@@ -444,6 +502,7 @@
   }
 
   function route() {
+    chrome();
     var id = decodeURIComponent((location.hash || "").replace(/^#\/?/, ""));
     var x = EX.filter(function (e) { return e.id === id; })[0];
     renderNav(x ? x.id : "");
@@ -454,5 +513,5 @@
     main.focus({ preventScroll: true });
   }
   window.addEventListener("hashchange", route);
-  route();
+  loadLang(lang, route);
 })();

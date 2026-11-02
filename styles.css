@@ -145,3 +145,4 @@ button:disabled { opacity: .6; cursor: progress; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
 main:focus-visible { outline: none; }
+.lang { font: inherit; font-size: .85rem; background: var(--bg); color: var(--text); border: 1px solid var(--line); border-radius: 4px; padding: .3rem .4rem; max-width: 9rem; }
