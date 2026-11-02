@@ -15,7 +15,8 @@ window.SITE = {
     { "code": "hi", "name": "हिन्दी" },
     { "code": "pt", "name": "Português" },
     { "code": "fr", "name": "Français" },
-    { "code": "de", "name": "Deutsch" }
+    { "code": "de", "name": "Deutsch" },
+    { "code": "ja", "name": "日本語" }
   ]
 };
 window.BLOCKS = [
