@@ -518,6 +518,15 @@
     window.scrollTo(0, 0);
     main.focus({ preventScroll: true });
   }
+  // Hide the header when scrolling down, show it when scrolling up.
+  var topBar = document.querySelector(".top"), lastY = window.scrollY || 0;
+  window.addEventListener("scroll", function () {
+    var y = window.scrollY || 0, dy = y - lastY;
+    if (Math.abs(dy) < 6) return;
+    var keep = y < 80 || nav.classList.contains("open") || topBar.contains(document.activeElement);
+    document.body.classList.toggle("hdr-off", dy > 0 && !keep);
+    lastY = y;
+  }, { passive: true });
   window.addEventListener("hashchange", route);
   loadLang(lang, route);
 })();
