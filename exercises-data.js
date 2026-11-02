@@ -10,7 +10,8 @@ window.SITE = {
       "name": "English"
     },
     { "code": "ru", "name": "Русский" },
-    { "code": "es", "name": "Español" }
+    { "code": "es", "name": "Español" },
+    { "code": "zh", "name": "中文" }
   ]
 };
 window.BLOCKS = [
