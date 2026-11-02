@@ -158,3 +158,20 @@ body.hdr-off .top { transform: translateY(-100%); }
 .top:focus-within { transform: none; }
 body.hdr-off .nav { top: 1rem; max-height: calc(100vh - 2rem); }
 @media (min-width: 1180px) { body.hdr-off .a-bench { top: 1rem; max-height: calc(100vh - 2rem); } }
+
+/* compact header */
+.top-inner { padding: .3rem 16px; gap: .6rem; }
+.brand img { width: 32px; height: 32px; }
+.langbtn { padding: .15rem .4rem; font-size: .75rem; min-width: 1.9rem; }
+.menu-btn { padding: .2rem .55rem; font-size: .8rem; }
+.progress { font-size: .8rem; margin-left: .3rem; }
+.nav { top: 3rem; }
+@media (max-width: 800px) {
+  .top-inner { flex-wrap: nowrap; gap: .4rem; }
+  .langs { order: 0; width: auto; margin-left: auto; gap: .15rem; }
+  .progress { margin-left: 0; }
+  .langbtn { min-width: 1.7rem; padding: .15rem .3rem; }
+}
+/* illustration above the footer */
+.foot-art { background: #010103; margin-top: 2rem; }
+.foot-art img { display: block; margin: 0 auto; width: 100%; max-width: 40rem; height: auto; }
